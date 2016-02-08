@@ -102,7 +102,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                //set the crime solved property
+                //set the note solved 
                 mNote.setSolved(true);
             }
         });
