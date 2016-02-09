@@ -1,4 +1,4 @@
-package com.example.ruslan.noteapp;
+package com.example.ruslan.criminalintent;
 
 
 import android.app.Activity;
@@ -102,7 +102,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                //set the note solved 
+                //set the crime solved property
                 mNote.setSolved(true);
             }
         });

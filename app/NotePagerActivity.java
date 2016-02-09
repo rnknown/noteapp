@@ -1,4 +1,4 @@
-package com.example.ruslan.noteapp;
+package com.example.ruslan.criminalintent;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
  * Created by ruslan on 14.01.2016.
  */
 
-public class NotePagerActivity extends FragmentActivity {
+public class NotePagerActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private List<Note> mNotes;

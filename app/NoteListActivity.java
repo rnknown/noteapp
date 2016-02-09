@@ -1,4 +1,4 @@
-package com.example.ruslan.noteapp;
+package com.example.ruslan.criminalintent;
 
 import android.support.v4.app.Fragment;
 

@@ -1,4 +1,4 @@
-package com.example.ruslan.noteapp;
+package com.example.ruslan.criminalintent;
 
 import android.text.format.DateFormat;
 
@@ -14,7 +14,7 @@ public class Note {
     private UUID mId;
     private String mTitle;
     private Date mDate;
-    private Boolean mSolved;
+    private boolean mSolved;
 
     public Note() {
         // Generate unique identifier
@@ -57,11 +57,11 @@ public class Note {
         mDate = date;
     }
 
-    public Boolean isSolved() {
+    public boolean isSolved() {
         return mSolved;
     }
 
-    public void setSolved(Boolean solved) {
+    public void setSolved(boolean solved) {
         mSolved = solved;
     }
 }

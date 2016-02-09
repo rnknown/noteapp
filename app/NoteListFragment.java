@@ -1,11 +1,15 @@
-package com.example.ruslan.noteapp;
+package com.example.ruslan.criminalintent;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -20,16 +24,28 @@ import java.util.UUID;
 
 public class NoteListFragment extends Fragment {
 
-    private RecyclerView mCrimeRecyclerView;
-    private CrimeAdapter mAdapter;
+    private RecyclerView mNoteRecyclerView;
+    private NoteAdapter mAdapter;
+    private boolean mSubtitleVisible;
+    private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
 
-        mCrimeRecyclerView = (RecyclerView)view.findViewById(R.id.note_recycler_view);
-        mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mNoteRecyclerView = (RecyclerView)view.findViewById(R.id.note_recycler_view);
+        mNoteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (savedInstanceState != null) {
+            mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+        }
 
         updateUI();
         return view;
@@ -41,17 +57,25 @@ public class NoteListFragment extends Fragment {
         updateUI();
     }
 
+    @Override
+    public void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+    }
+
     private void updateUI () {
         NoteLab noteLab = NoteLab.get(getActivity());
         List<Note> notes = noteLab.getNotes();
 
         if (mAdapter == null) {
-            mAdapter = new CrimeAdapter(notes);
+            mAdapter = new NoteAdapter(notes);
         }
-            mCrimeRecyclerView.setAdapter(mAdapter);
+        mNoteRecyclerView.setAdapter(mAdapter);
+
+        updateSubtitle();
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder
+    private class NoteHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -69,7 +93,7 @@ public class NoteListFragment extends Fragment {
             mSolvedCheckBox.setChecked(mNote.isSolved());
         }
 
-        public CrimeHolder(View itemView) {
+        public NoteHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             mTitleTextView = (TextView)itemView.findViewById(R.id.list_item_note_text_view);
@@ -85,22 +109,22 @@ public class NoteListFragment extends Fragment {
         }
     }
 
-    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
+    private class NoteAdapter extends RecyclerView.Adapter<NoteHolder> {
         private List<Note> mNotes;
-        public CrimeAdapter (List<Note> notes) {
+        public NoteAdapter (List<Note> notes) {
             mNotes = notes;
         }
 
         @Override
-        public CrimeHolder onCreateViewHolder (ViewGroup parent, int type) {
+        public NoteHolder onCreateViewHolder (ViewGroup parent, int type) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.list_item_note, parent,
                     false);
-            return new CrimeHolder(view);
+            return new NoteHolder(view);
         }
 
         @Override
-        public void onBindViewHolder (CrimeHolder holder, int position) {
+        public void onBindViewHolder (NoteHolder holder, int position) {
             Note note = mNotes.get(position);
             holder.bindCrime(note);
         }
@@ -109,5 +133,50 @@ public class NoteListFragment extends Fragment {
         public int getItemCount () {
             return mNotes.size();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_note_list, menu);
+
+        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
+        if (mSubtitleVisible) {
+            subtitleItem.setTitle(R.string.hide_subtitle);
+        } else {
+            subtitleItem.setTitle(R.string.show_subtitle);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_new_note:
+                Note note = new Note();
+                NoteLab.get(getActivity()).addNote(note);
+                Intent intent = NotePagerActivity.newIntent(getActivity(), note.getId());
+                startActivity(intent);
+                return true;
+            case R.id.menu_item_show_subtitle:
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();
+                updateSubtitle();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void updateSubtitle() {
+        NoteLab noteLab = NoteLab.get(getActivity());
+        int noteCount = noteLab.getNotes().size();
+        String subtitle = getString(R.string.subtitle_format, noteCount);
+
+        if (!mSubtitleVisible) {
+            subtitle = null;
+        }
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
     }
 }

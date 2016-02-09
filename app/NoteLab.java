@@ -1,4 +1,4 @@
-package com.example.ruslan.noteapp;
+package com.example.ruslan.criminalintent;
 
 import android.content.Context;
 
@@ -24,12 +24,10 @@ public class NoteLab {
     private NoteLab(Context context)
     {
         mNotes = new ArrayList<>();
-        for (int i = 1; i < 100; i++) {
-            Note note = new Note();
-            note.setTitle("Note #" + i);
-            note.setSolved(i % 2 == 0);
-            mNotes.add(note);
-        }
+    }
+
+    public void addNote (Note n) {
+        mNotes.add(n);
     }
 
     public List<Note> getNotes()
