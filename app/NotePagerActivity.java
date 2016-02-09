@@ -1,10 +1,9 @@
-package com.example.ruslan;
+package com.example.ruslan.noteapp;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -21,11 +20,11 @@ public class NotePagerActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private List<Note> mNotes;
-    private static final String EXTRA_CRIME_ID = "com.example.ruslan.note_id";
+    private static final String EXTRA_NOTE_ID = "com.example.ruslan.note_id";
 
-    public static Intent newIntent (Context packageContext, UUID crimeId) {
+    public static Intent newIntent (Context packageContext, UUID noteId) {
         Intent intent = new Intent(packageContext, NotePagerActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        intent.putExtra(EXTRA_NOTE_ID, noteId);
         return intent;
     }
 
@@ -34,7 +33,7 @@ public class NotePagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_pager);
 
-        UUID crimeId = (UUID)getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+        UUID crimeId = (UUID)getIntent().getSerializableExtra(EXTRA_NOTE_ID);
         mViewPager = (ViewPager)findViewById(R.id.activity_note_pager_view_pager);
         mNotes = NoteLab.get(this).getNotes();
         FragmentManager fragmentManager = getSupportFragmentManager();

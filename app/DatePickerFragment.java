@@ -1,4 +1,4 @@
-package com.example.ruslan;
+package com.example.ruslan.noteapp;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -20,7 +19,7 @@ import java.util.GregorianCalendar;
  * Created by rusla on 06.02.2016.
  */
 public class DatePickerFragment extends DialogFragment {
-    public static final String EXTRA_DATE = "com.example.ruslan.date";
+    public static final String EXTRA_DATE = "com.example.ruslan.criminalintent.date";
     private static final String ARG_DATE = "date";
     private DatePicker mDatePicker;
 

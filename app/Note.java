@@ -1,8 +1,7 @@
-package com.example.ruslan;
+package com.example.ruslan.noteapp;
 
 import android.text.format.DateFormat;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 

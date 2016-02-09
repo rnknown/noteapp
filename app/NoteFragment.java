@@ -1,4 +1,4 @@
-package com.example.ruslan;
+package com.example.ruslan.noteapp;
 
 
 import android.app.Activity;
@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,7 +29,8 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     private Button mTimeButton;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
-    private static final String ARG_CRIME_ID = "note_id";
+    private Button mDeleteButton;
+    private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
     public static final int REQUEST_DATE = 0;
@@ -102,8 +104,19 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                //set the crime solved property
+                //set the note solved
                 mNote.setSolved(true);
+            }
+        });
+
+        mDeleteButton = (Button)v.findViewById(R.id.note_deleted);
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Note> notes = NoteLab.get(getActivity()).getNotes();
+                notes.remove(mNote);
+                Intent intent = new Intent(getActivity(), NoteListActivity.class);
+                startActivity(intent);
             }
         });
         return v;

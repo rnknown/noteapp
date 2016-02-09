@@ -32,6 +32,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>
+    <Button
+        android:id="@+id/note_deleted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:text="@string/note_deleted"
+        android:textColor="#c20909"/>
     <CheckBox
         android:id="@+id/note_solved"
         android:layout_width="match_parent"

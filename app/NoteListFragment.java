@@ -1,4 +1,4 @@
-package com.example.ruslan;
+package com.example.ruslan.noteapp;
 
 import android.content.Intent;
 import android.os.Bundle;
