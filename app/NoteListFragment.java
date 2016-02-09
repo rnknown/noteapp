@@ -1,4 +1,4 @@
-package com.example.ruslan.criminalintent;
+package com.example.ruslan;
 
 import android.content.Intent;
 import android.os.Bundle;

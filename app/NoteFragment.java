@@ -1,4 +1,4 @@
-package com.example.ruslan.criminalintent;
+package com.example.ruslan;
 
 
 import android.app.Activity;
@@ -28,7 +28,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     private Button mTimeButton;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
-    private static final String ARG_CRIME_ID = "crime_id";
+    private static final String ARG_CRIME_ID = "note_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
     public static final int REQUEST_DATE = 0;

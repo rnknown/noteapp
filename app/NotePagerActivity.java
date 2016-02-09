@@ -1,4 +1,4 @@
-package com.example.ruslan.criminalintent;
+package com.example.ruslan;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,7 @@ public class NotePagerActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private List<Note> mNotes;
-    private static final String EXTRA_CRIME_ID = "com.example.ruslan.criminalintent.crime_id";
+    private static final String EXTRA_CRIME_ID = "com.example.ruslan.note_id";
 
     public static Intent newIntent (Context packageContext, UUID crimeId) {
         Intent intent = new Intent(packageContext, NotePagerActivity.class);
