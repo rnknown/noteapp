@@ -11,4 +11,5 @@
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle_format">%1$s notes</string>
     <string name="note_deleted">Delete Note</string>
+    <string name="note_empty_list">No Subjects \nTap the "+" button to add notes</string>
 </resources>
