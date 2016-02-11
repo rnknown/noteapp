@@ -49,8 +49,8 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        UUID crimeId = (UUID)getArguments().getSerializable(ARG_CRIME_ID);
-        mNote = NoteLab.get(getActivity()).getCrime(crimeId);
+        UUID noteId = (UUID)getArguments().getSerializable(ARG_CRIME_ID);
+        mNote = NoteLab.get(getActivity()).getNote(noteId);
     }
 
     @Override
@@ -148,5 +148,12 @@ public class NoteFragment extends android.support.v4.app.Fragment {
 
     private void updateTime() {
         mTimeButton.setText(mNote.formatTimePicker().toString());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        NoteLab.get(getActivity()).updateNote(mNote);
     }
 }

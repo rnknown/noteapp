@@ -17,7 +17,11 @@ public class Note {
 
     public Note() {
         // Generate unique identifier
-        mId = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public Note(UUID id) {
+        mId = id;
         mDate = new Date();
     }
 

@@ -81,8 +81,12 @@ public class NoteListFragment extends Fragment {
         if (mAdapter == null) {
             mAdapter = new NoteAdapter(notes);
         }
-        mNoteRecyclerView.setAdapter(mAdapter);
+        else {
+            mAdapter.setNotes(notes);
+            //mAdapter.notifyDataSetChanged();
+        }
 
+        mNoteRecyclerView.setAdapter(mAdapter);
         updateSubtitle();
     }
 
@@ -97,7 +101,7 @@ public class NoteListFragment extends Fragment {
             return mNote.getId();
         }
 
-        public void bindCrime (Note note) {
+        public void bindNote (Note note) {
             mNote = note;
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(mNote.formatDate());
@@ -138,12 +142,16 @@ public class NoteListFragment extends Fragment {
         @Override
         public void onBindViewHolder (NoteHolder holder, int position) {
             Note note = mNotes.get(position);
-            holder.bindCrime(note);
+            holder.bindNote(note);
         }
 
         @Override
         public int getItemCount () {
             return mNotes.size();
+        }
+
+        public void setNotes (List<Note> notes) {
+            mNotes = notes;
         }
     }
 
