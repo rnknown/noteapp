@@ -80,13 +80,12 @@ public class NoteListFragment extends Fragment {
 
         if (mAdapter == null) {
             mAdapter = new NoteAdapter(notes);
+            mNoteRecyclerView.setAdapter(mAdapter);
         }
         else {
             mAdapter.setNotes(notes);
-            //mAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
-
-        mNoteRecyclerView.setAdapter(mAdapter);
         updateSubtitle();
     }
 
