@@ -115,8 +115,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 List<Note> notes = NoteLab.get(getActivity()).getNotes();
                 notes.remove(mNote);
-                Intent intent = new Intent(getActivity(), NoteListActivity.class);
-                startActivity(intent);
+                getActivity().finish();
             }
         });
         return v;

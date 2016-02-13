@@ -1,5 +1,6 @@
 package com.example.ruslan.noteapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class NotePagerActivity extends AppCompatActivity {
         UUID crimeId = (UUID)getIntent().getSerializableExtra(EXTRA_NOTE_ID);
         mViewPager = (ViewPager)findViewById(R.id.activity_note_pager_view_pager);
         mNotes = NoteLab.get(this).getNotes();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @Override
