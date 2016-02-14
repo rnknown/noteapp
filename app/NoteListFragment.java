@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -105,19 +106,25 @@ public class NoteListFragment extends Fragment {
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(mNote.formatDate());
             mSolvedCheckBox.setChecked(mNote.isSolved());
+            mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mNote.setSolved(isChecked);
+                }
+            });
         }
 
         public NoteHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_note_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_note_date_text_view);
-            mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_note_solved_check_box);
-
+            mTitleTextView = (TextView)itemView.findViewById(R.id.list_item_note_text_view);
+            mDateTextView = (TextView)itemView.findViewById(R.id.list_item_note_date_text_view);
+            mSolvedCheckBox = (CheckBox)itemView.findViewById(R.id.list_item_note_solved_check_box);
         }
 
         @Override
         public void onClick (View v) {
+            NoteLab.get(getActivity()).updateNote(mNote);
             Intent intent = NotePagerActivity.newIntent(getActivity(), mNote.getId());
             startActivity(intent);
             mAdapter.notifyItemChanged(mAdapter.mNotes.indexOf(mNote));

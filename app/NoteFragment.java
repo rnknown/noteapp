@@ -105,7 +105,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //set the note solved
-                mNote.setSolved(true);
+                mNote.setSolved(b);
             }
         });
 

@@ -38,7 +38,6 @@ public class NoteLab {
 
     public void addNote (Note n) {
         ContentValues values = getContentValues(n);
-
         mDatabase.insert(NoteTable.NAME, null, values);
     }
 
@@ -62,7 +61,7 @@ public class NoteLab {
         return notes;
     }
 
-    public Note getNote (UUID id) {
+    public Note getNote(UUID id) {
 
         NoteCursorWrapper cursor = queryNotes(
                 NoteTable.Cols.UUID + " = ?",
@@ -85,7 +84,7 @@ public class NoteLab {
         String uuidString = note.getId().toString();
         ContentValues values = getContentValues(note);
 
-        mDatabase.update(NoteTable.NAME, values, NoteTable.Cols.UUID + " =?",
+        mDatabase.update(NoteTable.NAME, values, NoteTable.Cols.UUID + " = ?",
                 new String[] { uuidString });
     }
 
@@ -95,6 +94,7 @@ public class NoteLab {
         values.put(NoteTable.Cols.TITLE, note.getTitle());
         values.put(NoteTable.Cols.DATE, note.getDate().getTime());
         values.put(NoteTable.Cols.SOLVED, note.isSolved() ? 1 : 0);
+
         return values;
     }
 
