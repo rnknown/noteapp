@@ -42,8 +42,7 @@ public class NoteLab {
     }
 
     public void deleteNote (Note n) {
-        ContentValues values = getContentValues(n);
-        mDatabase.delete(NoteTable.NAME, null, null);
+        mDatabase.delete(NoteTable.NAME, "uuid=?", new String[]{String.valueOf(n.getId())});
     }
     public List<Note> getNotes()
     {
