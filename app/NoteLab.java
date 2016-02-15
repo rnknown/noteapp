@@ -41,6 +41,10 @@ public class NoteLab {
         mDatabase.insert(NoteTable.NAME, null, values);
     }
 
+    public void deleteNote (Note n) {
+        ContentValues values = getContentValues(n);
+        mDatabase.delete(NoteTable.NAME, null, null);
+    }
     public List<Note> getNotes()
     {
         List<Note> notes = new ArrayList<>();

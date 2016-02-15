@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -49,6 +52,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UUID noteId = (UUID)getArguments().getSerializable(ARG_CRIME_ID);
         mNote = NoteLab.get(getActivity()).getNote(noteId);
     }
@@ -108,16 +112,6 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 mNote.setSolved(b);
             }
         });
-
-        mDeleteButton = (Button)v.findViewById(R.id.note_deleted);
-        mDeleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Note> notes = NoteLab.get(getActivity()).getNotes();
-                notes.remove(mNote);
-                getActivity().finish();
-            }
-        });
         return v;
     }
 
@@ -139,6 +133,24 @@ public class NoteFragment extends android.support.v4.app.Fragment {
             updateTime();
         }
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_note, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete_note:
+                NoteLab.get(getActivity()).deleteNote(mNote);
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void updateDate() {
