@@ -12,4 +12,13 @@
     <string name="subtitle_format">%1$s notes</string>
     <string name="note_deleted">Delete Note</string>
     <string name="note_empty_list">No Subjects \nTap the "+" button to add notes</string>
+    <string name="note_partner_text">Choose Partner</string>
+    <string name="note_sharing_text">Send Note</string>
+    <string name="note_sharing">%1$s! We must perform the task on %2$s. %3$s, and %4$s</string>
+    <string name="note_solved">The note is solved</string>
+    <string name="note_unsolved">The note is unsolved</string>
+    <string name="note_sharing_no_partner">there is no partner</string>
+    <string name="note_sharing_partner">the partner is %s.</string>
+    <string name="note_sharing_subject">Note Sharing</string>
+    <string name="send_note">Send note via</string>
 </resources>

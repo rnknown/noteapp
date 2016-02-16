@@ -15,6 +15,16 @@ public class Note {
     private Date mDate;
     private boolean mSolved;
 
+    public String getPartner() {
+        return mPartner;
+    }
+
+    public void setPartner(String partner) {
+        mPartner = partner;
+    }
+
+    private String mPartner;
+
     public Note() {
         // Generate unique identifier
         this(UUID.randomUUID());

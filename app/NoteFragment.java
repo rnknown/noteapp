@@ -3,8 +3,13 @@ package com.example.ruslan.noteapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ShareCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -32,12 +37,14 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     private Button mTimeButton;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
-    private Button mDeleteButton;
+    private Button mSharingButton;
+    private Button mPartnerButton;
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
     public static final int REQUEST_DATE = 0;
     public static final int REQUEST_TIME = 1;
+    public static final int REQUEST_CONTACT = 2;
 
     public static NoteFragment newInstance (UUID crimeId) {
         Bundle args = new Bundle();
@@ -46,6 +53,12 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         NoteFragment fragment = new NoteFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        NoteLab.get(getActivity()).updateNote(mNote);
     }
 
     @Override
@@ -102,7 +115,6 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 dialog.show(fm, DIALOG_DATE);
             }
         });
-
         mSolvedCheckBox = (CheckBox)v.findViewById(R.id.note_solved);
         mSolvedCheckBox.setChecked(mNote.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -112,6 +124,37 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 mNote.setSolved(b);
             }
         });
+        mSharingButton = (Button)v.findViewById(R.id.note_sharing);
+        mSharingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = ShareCompat.IntentBuilder.from(getActivity())
+                        .setType("text/plain")
+                        .setText(getNoteSharing())
+                        .setSubject(getString(R.string.note_sharing_partner))
+                        .setChooserTitle(getString(R.string.send_note))
+                        .createChooserIntent();
+                startActivity(i);
+            }
+        });
+        final Intent pickContact = new Intent(Intent.ACTION_PICK,
+                ContactsContract.Contacts.CONTENT_URI);
+        mPartnerButton = (Button)v.findViewById(R.id.note_partner);
+        mPartnerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(pickContact, REQUEST_CONTACT);
+            }
+        });
+        if (mNote.getPartner() != null) {
+            mPartnerButton.setText(mNote.getPartner());
+        }
+
+        PackageManager packageManager = getActivity().getPackageManager();
+        if (packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) ==
+                null) {
+            mPartnerButton.setEnabled(false);
+        }
         return v;
     }
 
@@ -131,6 +174,25 @@ public class NoteFragment extends android.support.v4.app.Fragment {
             Date date = (Date)data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             mNote.setDate(date);
             updateTime();
+        } else if (requestCode == REQUEST_CONTACT && data != null) {
+            Uri contactUri = data.getData();
+            String[] queryFields = new String[] {
+                    ContactsContract.Contacts.DISPLAY_NAME
+            };
+            Cursor c = getActivity().getContentResolver().query(contactUri, queryFields, null,
+                    null, null);
+            try {
+                if (c.getCount() == 0) {
+                    return;
+                }
+
+                c.moveToFirst();
+                String partner = c.getString(0);
+                mNote.setPartner(partner);
+                mPartnerButton.setText(partner);
+            } finally {
+                c.close();
+            }
         }
 
     }
@@ -161,10 +223,26 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         mTimeButton.setText(mNote.formatTimePicker().toString());
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    private String getNoteSharing() {
+        String solvedNote = null;
+        if (mNote.isSolved()) {
+            solvedNote = getString(R.string.note_solved);
+        } else {
+            solvedNote = getString(R.string.note_unsolved);
+        }
 
-        NoteLab.get(getActivity()).updateNote(mNote);
+        String dateString = mNote.formatDatePicker().toString();
+
+        String partner = mNote.getPartner();
+        if (partner == null) {
+            partner = getString(R.string.note_sharing_no_partner);
+        } else {
+            partner = getString(R.string.note_sharing_partner, partner);
+        }
+
+        String sharing = getString(R.string.note_sharing, mNote.getTitle(), dateString, solvedNote,
+                partner);
+
+        return sharing;
     }
 }

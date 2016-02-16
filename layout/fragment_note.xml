@@ -39,4 +39,18 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/note_solved_label"/>
+    <Button
+        android:id="@+id/note_partner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="@string/note_partner_text"/>
+    <Button
+        android:id="@+id/note_sharing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="@string/note_sharing_text"/>
 </LinearLayout>

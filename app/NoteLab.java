@@ -97,6 +97,7 @@ public class NoteLab {
         values.put(NoteTable.Cols.TITLE, note.getTitle());
         values.put(NoteTable.Cols.DATE, note.getDate().getTime());
         values.put(NoteTable.Cols.SOLVED, note.isSolved() ? 1 : 0);
+        values.put(NoteTable.Cols.PARTNER, note.getPartner());
 
         return values;
     }
