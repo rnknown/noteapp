@@ -47,6 +47,13 @@
         android:layout_marginRight="40dp"
         android:text="@string/note_partner_text"/>
     <Button
+        android:id="@+id/note_partner_call"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="@string/note_no_partner_call_text"/>
+    <Button
         android:id="@+id/note_sharing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

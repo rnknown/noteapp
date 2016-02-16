@@ -62,6 +62,12 @@
             android:layout_weight="1"
             android:text="@string/note_partner_text"/>
         <Button
+            android:id="@+id/note_partner_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/note_partner_call_text"/>
+        <Button
             android:id="@+id/note_sharing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

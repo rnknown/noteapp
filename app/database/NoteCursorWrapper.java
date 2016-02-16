@@ -24,12 +24,14 @@ public class NoteCursorWrapper extends CursorWrapper {
         long date = getLong(getColumnIndex(NoteTable.Cols.DATE));
         int isSolved = getInt(getColumnIndex(NoteTable.Cols.SOLVED));
         String partner = getString(getColumnIndex(NoteTable.Cols.PARTNER));
+        long partnerId = getLong(getColumnIndex(NoteTable.Cols.PARTNER_ID));
 
         Note note = new Note(UUID.fromString(uuidString));
         note.setTitle(title);
         note.setDate(new Date(date));
         note.setSolved(isSolved != 0);
         note.setPartner(partner);
+        note.setPartnerId(partnerId);
 
         return note;
     }

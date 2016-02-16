@@ -21,4 +21,6 @@
     <string name="note_sharing_partner">the partner is %s.</string>
     <string name="note_sharing_subject">Note Sharing</string>
     <string name="send_note">Send note via</string>
+    <string name="note_partner_call_text">Call %s</string>
+    <string name="note_no_partner_call_text">Call Partner</string>
 </resources>

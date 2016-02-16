@@ -23,7 +23,8 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + NoteTable.NAME + " (" +
                 " _id integer primary key autoincrement, "
                 + NoteTable.Cols.UUID + ", " + NoteTable.Cols.TITLE + ", " +
-        NoteTable.Cols.DATE + ", " + NoteTable.Cols.SOLVED + ", " + NoteTable.Cols.PARTNER + ")");
+        NoteTable.Cols.DATE + ", " + NoteTable.Cols.SOLVED + ", " + NoteTable.Cols.PARTNER + ", " +
+                NoteTable.Cols.PARTNER_ID + ")");
     }
 
     @Override

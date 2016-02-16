@@ -2,6 +2,7 @@ package com.example.ruslan.noteapp;
 
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -39,6 +40,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     private CheckBox mSolvedCheckBox;
     private Button mSharingButton;
     private Button mPartnerButton;
+    private Button mCallPartnerButton;
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
@@ -124,6 +126,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 mNote.setSolved(b);
             }
         });
+
         mSharingButton = (Button)v.findViewById(R.id.note_sharing);
         mSharingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +140,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 startActivity(i);
             }
         });
+
         final Intent pickContact = new Intent(Intent.ACTION_PICK,
                 ContactsContract.Contacts.CONTENT_URI);
         mPartnerButton = (Button)v.findViewById(R.id.note_partner);
@@ -146,8 +150,40 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 startActivityForResult(pickContact, REQUEST_CONTACT);
             }
         });
+
+        mCallPartnerButton = (Button)v.findViewById(R.id.note_partner_call);
+        mCallPartnerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri contentUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                String selectClause = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?";
+
+                String[] fields = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+                String[] selectParams = {Long.toString(mNote.getPartnerId())};
+
+                Cursor cursor = getActivity().getContentResolver().query(contentUri,
+                        fields, selectClause, selectParams, null);
+
+                if(cursor != null && cursor.getCount() > 0) {
+                    try {
+                        cursor.moveToFirst();
+                        String number = cursor.getString(0);
+                        Uri phoneNumber = Uri.parse("tel:" + number);
+                        Intent intent = new Intent(Intent.ACTION_DIAL, phoneNumber);
+                        startActivity(intent);
+                    }
+                    finally {
+                        cursor.close();
+                    }
+                }
+            }
+        });
+
         if (mNote.getPartner() != null) {
+            updateCallButton();
             mPartnerButton.setText(mNote.getPartner());
+        } else {
+            mCallPartnerButton.setEnabled(false);
         }
 
         PackageManager packageManager = getActivity().getPackageManager();
@@ -155,6 +191,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 null) {
             mPartnerButton.setEnabled(false);
         }
+
         return v;
     }
 
@@ -174,10 +211,12 @@ public class NoteFragment extends android.support.v4.app.Fragment {
             Date date = (Date)data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             mNote.setDate(date);
             updateTime();
-        } else if (requestCode == REQUEST_CONTACT && data != null) {
+        }
+        else if (requestCode == REQUEST_CONTACT && data != null) {
             Uri contactUri = data.getData();
             String[] queryFields = new String[] {
-                    ContactsContract.Contacts.DISPLAY_NAME
+                    ContactsContract.Contacts.DISPLAY_NAME,
+                    ContactsContract.Contacts._ID
             };
             Cursor c = getActivity().getContentResolver().query(contactUri, queryFields, null,
                     null, null);
@@ -185,16 +224,17 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 if (c.getCount() == 0) {
                     return;
                 }
-
                 c.moveToFirst();
                 String partner = c.getString(0);
+                long partnerId = c.getLong(1);
                 mNote.setPartner(partner);
+                mNote.setPartnerId(partnerId);
                 mPartnerButton.setText(partner);
+                updateCallButton();
             } finally {
                 c.close();
             }
         }
-
     }
 
     @Override
@@ -224,7 +264,8 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     }
 
     private String getNoteSharing() {
-        String solvedNote = null;
+        String solvedNote;
+
         if (mNote.isSolved()) {
             solvedNote = getString(R.string.note_solved);
         } else {
@@ -244,5 +285,12 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 partner);
 
         return sharing;
+    }
+
+    private void updateCallButton() {
+        mCallPartnerButton.setEnabled(true);
+        String notePartnerCall = getString(R.string.note_partner_call_text);
+        notePartnerCall = String.format(notePartnerCall, mNote.getPartner());
+        mCallPartnerButton.setText(notePartnerCall);
     }
 }

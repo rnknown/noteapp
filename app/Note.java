@@ -14,6 +14,16 @@ public class Note {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private String mPartner;
+    private long mPartnerId;
+
+    public long getPartnerId() {
+        return mPartnerId;
+    }
+
+    public void setPartnerId(long partnerId) {
+        mPartnerId = partnerId;
+    }
 
     public String getPartner() {
         return mPartner;
@@ -22,8 +32,6 @@ public class Note {
     public void setPartner(String partner) {
         mPartner = partner;
     }
-
-    private String mPartner;
 
     public Note() {
         // Generate unique identifier

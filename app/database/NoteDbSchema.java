@@ -13,6 +13,7 @@ public class NoteDbSchema {
             public static final String DATE = "date";
             public static final String SOLVED = "solved";
             public static final String PARTNER = "partner";
+            public static final String PARTNER_ID = "partner_id";
 
         }
     }
