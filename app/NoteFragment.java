@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,8 @@ import java.util.UUID;
 public class NoteFragment extends android.support.v4.app.Fragment {
     private Note mNote;
     private EditText mTitleField;
+    private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
     private Button mTimeButton;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
@@ -191,6 +195,9 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 null) {
             mPartnerButton.setEnabled(false);
         }
+
+        mPhotoButton = (ImageButton)v.findViewById(R.id.note_camera);
+        mPhotoView = (ImageView)v.findViewById(R.id.note_photo);
 
         return v;
     }
