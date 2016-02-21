@@ -2,13 +2,14 @@ package com.example.ruslan.noteapp;
 
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
 import android.text.Editable;
@@ -26,8 +27,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -45,12 +46,14 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     private Button mSharingButton;
     private Button mPartnerButton;
     private Button mCallPartnerButton;
+    private File mPhotoFile;
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
     public static final int REQUEST_DATE = 0;
     public static final int REQUEST_TIME = 1;
     public static final int REQUEST_CONTACT = 2;
+    public static final int REQUEST_PHOTO = 3;
 
     public static NoteFragment newInstance (UUID crimeId) {
         Bundle args = new Bundle();
@@ -74,6 +77,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         setHasOptionsMenu(true);
         UUID noteId = (UUID)getArguments().getSerializable(ARG_CRIME_ID);
         mNote = NoteLab.get(getActivity()).getNote(noteId);
+        mPhotoFile = NoteLab.get(getActivity()).getPhotoFile(mNote);
     }
 
     @Override
@@ -197,7 +201,28 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         }
 
         mPhotoButton = (ImageButton)v.findViewById(R.id.note_camera);
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        boolean canTakePhoto = mPhotoFile != null
+                & captureImage.resolveActivity(packageManager) != null;
+        mPhotoButton.setEnabled(canTakePhoto);
+
+        if (canTakePhoto) {
+            Uri uri = Uri.fromFile(mPhotoFile);
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        }
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(captureImage, REQUEST_PHOTO);
+            }
+        });
         mPhotoView = (ImageView)v.findViewById(R.id.note_photo);
+        mPhotoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        updatePhotoView();
 
         return v;
     }
@@ -219,7 +244,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
             mNote.setDate(date);
             updateTime();
         }
-        else if (requestCode == REQUEST_CONTACT && data != null) {
+        if (requestCode == REQUEST_CONTACT && data != null) {
             Uri contactUri = data.getData();
             String[] queryFields = new String[] {
                     ContactsContract.Contacts.DISPLAY_NAME,
@@ -241,6 +266,9 @@ public class NoteFragment extends android.support.v4.app.Fragment {
             } finally {
                 c.close();
             }
+        }
+        else if (requestCode == REQUEST_PHOTO) {
+            updatePhotoView();
         }
     }
 
@@ -299,5 +327,15 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         String notePartnerCall = getString(R.string.note_partner_call_text);
         notePartnerCall = String.format(notePartnerCall, mNote.getPartner());
         mCallPartnerButton.setText(notePartnerCall);
+    }
+
+    private void updatePhotoView() {
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
+            mPhotoView.setImageDrawable(null);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
+            mPhotoView.setImageBitmap(bitmap);
+        }
+
     }
 }
