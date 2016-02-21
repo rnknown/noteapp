@@ -1,5 +1,6 @@
 package com.example.ruslan.noteapp;
 
+import android.content.Context;
 import android.text.format.DateFormat;
 
 import java.util.Date;
@@ -16,6 +17,7 @@ public class Note {
     private boolean mSolved;
     private String mPartner;
     private long mPartnerId;
+    private Context mContext;
 
     public long getPartnerId() {
         return mPartnerId;
@@ -85,4 +87,9 @@ public class Note {
     public void setSolved(boolean solved) {
         mSolved = solved;
     }
+
+    public String getPhotoFilename() {
+        return "IMG_" + getId().toString() + ".jpg";
+    }
+
 }
