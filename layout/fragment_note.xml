@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <include layout="@layout/view_camera_and_title"/>
-    <Button
+        <include layout="@layout/view_camera_and_title"/>
+        <Button
         android:id="@+id/note_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"/>
-    <Button
+        <Button
         android:id="@+id/note_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"/>
-    <CheckBox
+        <CheckBox
         android:id="@+id/note_solved"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/note_solved_label"/>
-    <Button
+        <Button
         android:id="@+id/note_partner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:text="@string/note_partner_text"/>
-    <Button
+        <Button
         android:id="@+id/note_partner_call"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,4 +48,5 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:text="@string/note_sharing_text"/>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
