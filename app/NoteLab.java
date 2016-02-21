@@ -4,12 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
 import com.example.ruslan.noteapp.database.NoteBaseHelper;
 import com.example.ruslan.noteapp.database.NoteCursorWrapper;
-import com.example.ruslan.noteapp.database.NoteDbSchema;
 import com.example.ruslan.noteapp.database.NoteDbSchema.NoteTable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -89,6 +90,14 @@ public class NoteLab {
 
         mDatabase.update(NoteTable.NAME, values, NoteTable.Cols.UUID + " = ?",
                 new String[] { uuidString });
+    }
+
+    public File getPhotoFile (Note note) {
+        File externalFilesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (externalFilesDir == null) {
+            return null;
+        }
+        return new File(externalFilesDir, note.getPhotoFilename());
     }
 
     private static ContentValues getContentValues (Note note) {
