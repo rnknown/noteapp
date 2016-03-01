@@ -20,7 +20,7 @@ import java.util.GregorianCalendar;
  * Created by rusla on 06.02.2016.
  */
 public class TimePickerFragment extends DialogFragment {
-    public static final String EXTRA_TIME = "com.example.ruslan.criminalintent.time";
+    public static final String EXTRA_TIME = "com.example.ruslan.noteapp.time";
     private static final String ARG_TIME = "time";
     private TimePicker mTimePicker;
 
