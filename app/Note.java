@@ -17,7 +17,6 @@ public class Note {
     private boolean mSolved;
     private String mPartner;
     private long mPartnerId;
-    private Context mContext;
 
     public long getPartnerId() {
         return mPartnerId;
