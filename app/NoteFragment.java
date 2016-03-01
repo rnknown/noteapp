@@ -50,6 +50,7 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
+    public static final String DIALOG_PHOTO = "DialogPhoto";
     public static final int REQUEST_DATE = 0;
     public static final int REQUEST_TIME = 1;
     public static final int REQUEST_CONTACT = 2;
@@ -220,6 +221,10 @@ public class NoteFragment extends android.support.v4.app.Fragment {
         mPhotoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mPhotoFile != null && mPhotoFile.exists()) {
+                    FragmentManager fm = getFragmentManager();
+                    ZoomDialogFragment.newInstance(mPhotoFile).show(fm, DIALOG_PHOTO);
+                }
             }
         });
         updatePhotoView();
