@@ -45,6 +45,7 @@ public class NoteLab {
     public void deleteNote (Note n) {
         mDatabase.delete(NoteTable.NAME, "uuid=?", new String[]{String.valueOf(n.getId())});
     }
+
     public List<Note> getNotes()
     {
         List<Note> notes = new ArrayList<>();
@@ -66,7 +67,6 @@ public class NoteLab {
     }
 
     public Note getNote(UUID id) {
-
         NoteCursorWrapper cursor = queryNotes(
                 NoteTable.Cols.UUID + " = ?",
                 new String[] { id.toString() }
