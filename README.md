@@ -6,5 +6,5 @@ set time and date for each note. Also to make your collection of notes beautiful
 All your notes are securely stored in the sqlite-database.
 You can also share notes and publish them for other people.
 
-![alt tag](http://s50.radikal.ru/i129/1607/ad/bafd0c046f6e.png "Description goes here")
-![alt tag](http://s016.radikal.ru/i336/1607/2b/303812a4eeb3.png "Description goes here")
+![alt tag](http://s50.radikal.ru/i129/1607/ad/bafd0c046f6e.png "1st screenshot")
+![alt tag](http://s016.radikal.ru/i336/1607/2b/303812a4eeb3.png "2nd screenshot")
